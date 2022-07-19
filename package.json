@@ -1,0 +1,24 @@
+{
+  "name": "express_filrouge",
+  "version": "1.0.0",
+  "description": "Project Express.js Fil Rouge ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ARCEntertainment/Express-FilRouge_1.0.git"
+  },
+  "author": "Lardo-Ark_Entertainment",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ARCEntertainment/Express-FilRouge_1.0/issues"
+  },
+  "homepage": "https://github.com/ARCEntertainment/Express-FilRouge_1.0#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  }
+}
