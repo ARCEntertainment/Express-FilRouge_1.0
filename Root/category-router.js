@@ -6,6 +6,11 @@
 // _______________________________
 
 const categoryRouter = require('express').Router();
+const categoryController = require('../Controllers/category-controller');
+const authentication = require('../Middlewares/auth-jwt');
+const bodyValidation = require('../Middlewares/body-validation');
+const idValidator = require('../Middlewares/idValidator');
+const categoryValidator = require('../Validators/category-validator');
 
 
 
@@ -17,43 +22,36 @@ const categoryRouter = require('express').Router();
 // .delete = Supression
 
 
+
+// --- Appel du Middleware ID Validator Dans la ROOT ById (Varification validité [ID])
+// ---------------
+// categoryRouter.use(idValidator()) 
+
+
 // ------methode long (repetition)--------------
 
-categoryRouter.get('/', (req, res) => {
-    console.log('Listed of Category')
-    res.sendStatus(501) // Error : Fonction pas encore implémenté (not implemented)
-})
+categoryRouter.get('/', categoryController.getAll)
 
-categoryRouter.get('/:id', (req, res) => {
-    console.log(`Recupered Category with id is ${req.params.id}`)
-    res.sendStatus(501) // Error : Fonction pas encore implémenté (not implemented)
-})
+categoryRouter.get('/:id', idValidator(), categoryController.getById)
 
-categoryRouter.post('/', (req, res) => {
-    console.log(`Send New Category`)
-    res.sendStatus(501) // Error : Fonction pas encore implémenté (not implemented)
-})
+categoryRouter.post('/', authentication(['User', 'Moderator', 'Admin']), bodyValidation(categoryValidator), categoryController.creat)
 
-categoryRouter.put('/:id', (req, res) => {
-    console.log(`Modificated Category with id is ${req.params.id}`)
-    res.sendStatus(501) // Error : Fonction pas encore implémenté (not implemented)
-})
+categoryRouter.put('/:id', authentication(['Admin', 'Moderator']), idValidator(), bodyValidation(categoryValidator), categoryController.update)
 
-categoryRouter.delete('/:id', (req, res) => {
-    console.log(`Deleted Category with id is ${req.params.id}`)
-    res.sendStatus(501) // Error : Fonction pas encore implémenté (not implemented)
-})
+categoryRouter.delete('/:id', authentication(['Admin']), idValidator(), categoryController.delete)
 
 // ------methode court (not Repetition)--------------
 
 // categoryRouter.router('/')
-//     .get((req, res) => { res.sendStatus(501) })
-//     .post((req, res) => { res.sendStatus(501) })
+//     .get(categoryController.getAll)
+//     .post(categoryController.creat)
 
 // categoryRouter.router('/:id')
-//     .get((req, res) => { res.sendStatus(501) })
-//     .put((req, res) => { res.sendStatus(501) })
-//     .delete((req, res) => { res.sendStatus(501) })
+//     .get(idValidator(), categoryController.getById)
+//     .put(idValidator(), categoryController.update)
+//     .delete(idValidator(), categoryController.delete)
+
+
 
 
 // Exported ROOT

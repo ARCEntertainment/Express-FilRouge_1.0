@@ -1,5 +1,9 @@
 // ///////////////////////// MISE En PLACE ROOTING auth (Router) /////////////////////////
 
+const authController = require('../Controllers/auth-controller');
+const bodyValidation = require('../Middlewares/body-validation');
+const { registerValidator, loginValidator } = require('../Validators/user-validator');
+
 
 
 // Initialising EXPRESS
@@ -20,15 +24,9 @@ const authRouter = require('express').Router();
 // ---------AUTHENTIFICATION----------
 
 
-authRouter.post('/login', (req, res) => {
-    console.log(`authentificated`)
-    res.sendStatus(501)
-})
+authRouter.post('/login', bodyValidation(loginValidator), authController.login);
 
-authRouter.post('/register', (req, res) => {
-    console.log(`registered`)
-    res.sendStatus(501)
-})
+authRouter.post('/register', bodyValidation(registerValidator), authController.register);
 
 
 
