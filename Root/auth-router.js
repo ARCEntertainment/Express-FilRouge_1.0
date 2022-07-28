@@ -2,7 +2,7 @@
 
 const authController = require('../Controllers/auth-controller');
 const bodyValidation = require('../Middlewares/body-validation');
-const { registerValidator, loginValidator } = require('../Validators/user-validator');
+const { registerValidator, loginValidator } = require('../Validators/auth-validator');
 
 
 

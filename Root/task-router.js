@@ -1,5 +1,10 @@
 // ///////////////////////// MISE En PLACE ROOTING Task (Router) /////////////////////////
 
+const taskController = require('../Controllers/task-controller');
+const idValidator = require('../Middlewares/idValidator')
+const bodyValidation = require('../Middlewares/body-validation');
+const {insertTaskValidator, updateTaskValidator} = require('../Validators/task-validatort');
+
 
 
 // Initialising EXPRESS
@@ -19,42 +24,22 @@ const taskRouter = require('express').Router();
 
 // ----------TASK--------------
 
-taskRouter.get('/', (req, res) => {
-    console.log('Listed of Task')
-    res.sendStatus(501)
-})
+taskRouter.get('/', taskController.getALL)
 
 // '/:categoryname les ":" avant le nom du chemin rend le chemin categoryname dynamique
-taskRouter.get('/:categoryname', (req, res) => {
-    console.log(`Recupered Name Category of Task`)
-    res.sendStatus(501)
-})
+taskRouter.get('/category/:id', taskController.getByCategory)
+
 
 // '/:username les ":" avant le nom du chemin rend le chemin username dynamique
-taskRouter.get('/:username', (req, res) => {
-    console.log('Listed of username')
-    res.sendStatus(501)
-})
+taskRouter.get('/user/:id', taskController.getByUser)
 
-taskRouter.get('/:id', (req, res) => {
-    console.log(`Recupered Task with [ID] is : [${req.params.id}]`)
-    res.sendStatus(501)
-})
+taskRouter.get('/:id', idValidator(), taskController.getById)
 
-taskRouter.post('/', (req, res) => {
-    console.log(`Add an Task`)
-    res.sendStatus(501)
-})
+taskRouter.post('/', bodyValidation(insertTaskValidator), taskController.creat)
 
-taskRouter.put('/:id', (req, res) => {
-    console.log(`Modified Task with [ID] is : [${req.params.id}]`)
-    res.sendStatus(501)
-})
+taskRouter.put('/:id', idValidator(), bodyValidation(updateTaskValidator), taskController.update)
 
-taskRouter.delete('/:id', (req, res) => {
-    console.log(`Deleted Task with [ID] is : [${req.params.id}]`)
-    res.sendStatus(501)
-})
+taskRouter.delete('/:id', idValidator(), taskController.delete)
 
 
 

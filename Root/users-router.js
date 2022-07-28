@@ -1,11 +1,17 @@
 // ///////////////////////// MISE En PLACE ROOTING Users (Router) /////////////////////////
 
+const userController = require('../Controllers/user-controller');
+const idValidator = require('../Middlewares/idValidator');
+const userValidator = require('../Validators/user-validator');
+const bodyValidation = require('../Middlewares/body-validation')
+const authentication = require('../Middlewares/auth-jwt');
 
 
 // Initialising EXPRESS
 // _______________________________
 
 const usersRouter = require('express').Router();
+
 
 
 
@@ -19,26 +25,13 @@ const usersRouter = require('express').Router();
 
 // ----------USERS--------------
 
-usersRouter.get('/', (req, res) => {
-    console.log('Listed of Users')
-    res.sendStatus(501) 
-})
+usersRouter.get('/', userController.getAll)
 
-usersRouter.get('/:id', (req, res) => {
-    console.log(`Recupered Users with [ID] is : [${req.params.id}]`)
-    res.sendStatus(501) 
-})
+usersRouter.get('/:id', authentication(['User', 'Moderator', 'Admin']), idValidator(), userController.getById)
 
-usersRouter.put('/:id', (req, res) => {
-    console.log(`Modificated Users with [ID] is : [${req.params.id}]`)
-    res.sendStatus(501) 
-})
+usersRouter.put('/:id', authentication(['Admin', 'Moderator']), idValidator(), bodyValidation(userValidator), userController.update)
 
-usersRouter.delete('/:id', (req, res) => {
-    console.log(`Deleted Users with [ID] is : [${req.params.id}]`)
-    res.sendStatus(501) 
-})
-
+usersRouter.delete('/:id', authentication(['Admin']), idValidator(), userController.delete)
 
 
 // Exported ROOT
